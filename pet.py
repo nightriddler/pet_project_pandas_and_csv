@@ -11,8 +11,10 @@ def get_path():
     path_save = input(f'Укажите директорию сохранения графиков. '
                       f'По умолчанию - {os.getcwd()}:')
     if os.path.exists(path_save) is True:
+        print(f'Графики будут сохранены в {path_save}')
         return path_save
     else:
+        print('Графики будут сохранены в директорию по умолчанию')
         return os.getcwd()
 
 
@@ -59,8 +61,8 @@ def get_dataframe_and_date(file):
             line_int.pop()
             line_int.append(date_moment)
             DATA.append(line_int)
-            title = get_title()
-            data_frame = pd.DataFrame(DATA, columns=title)
+    title = get_title()
+    data_frame = pd.DataFrame(DATA, columns=title)
     return data_frame, date
 
 
