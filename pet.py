@@ -8,8 +8,9 @@ import csv
 
 
 def get_path():
-    path_save = input(f'Укажите директорию сохранения графиков. '
-                      f'По умолчанию - {os.getcwd()}:')
+    path_save = input(f'Укажите директорию сохранения графиков'
+                      f' (указанная папка должна существовать). '
+                      f'По умолчанию все графики будут сохранены в {os.getcwd()}:')
     if os.path.exists(path_save) is True:
         print(f'Графики будут сохранены в {path_save}')
         return path_save
@@ -52,8 +53,13 @@ def get_dataframe_and_date(file):
         elif len(line) == 16:
             date.add(date_moment)
             line_int = []
+            count_line = 0
             for elem in line:
-                line_int.append(int(elem))
+                if count_line == 1 or count_line == 2:
+                    line_int.append(int(elem)/10)
+                else:                
+                    line_int.append(int(elem))
+                count_line += 1                
             if line_int[8] == 135:
                 line_int[8] = 0
             if line_int[9] == 135:
@@ -70,9 +76,10 @@ def get_figure():
     args = get_title()
     args = args[1:14]
     for arg in args:
-        new_data_frame.plot(x='Время, с', y=arg, ylabel=arg, linewidth=1.5)
+        new_data_frame.plot(x='Время, с', y=arg, ylabel=arg, linewidth=1.1)
+        plt.xlim(left=0)
         plt.grid()
-        plt.savefig(arg, bbox_inches='tight', dpi=250)
+        plt.savefig(arg, bbox_inches='tight', dpi=350)
         plt.close(plt.gcf())
 
 
